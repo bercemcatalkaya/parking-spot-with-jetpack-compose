@@ -4,13 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.Canvas
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ToggleOff
 import androidx.compose.material.icons.filled.ToggleOn
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -58,12 +55,14 @@ fun MapScreen(
             uiSettings = uiSettings,
             onMapLongClick = {
                 viewModel.onEvent(MapEvent.onMapLongClick(it))
+                //cameraPositionState.move(CameraUpdateFactory.zoomIn())
             }
         ){
             viewModel.state.parkingSpots.forEach { spot ->
                 Marker(
                     position = LatLng(spot.latitude, spot.longitude),
-                    title = "Parking spot ${spot.latitude} ${spot.longitude}",
+                    title = "Parking spot, Latitude = ${String.format("%.2f", spot.latitude)}" +
+                            " Longitude = ${String.format("%.2f", spot.longitude)}",
                     snippet = "Long click to delete",
                     onInfoWindowLongClick = {
                         viewModel.onEvent(MapEvent.onInfoWindowLongClick(spot))
@@ -103,3 +102,4 @@ private fun bitmapDescriptorFromVector(
     vectorDrawable.draw(canvas)
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 }
+
